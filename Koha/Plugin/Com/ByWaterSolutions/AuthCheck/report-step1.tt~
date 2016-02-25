@@ -1,0 +1,38 @@
+[% INCLUDE 'doc-head-open.inc' %]
+ <title>Koha: Kitchen Sink Plugin: Report: Patron List</title>
+[% INCLUDE 'doc-head-close.inc' %]
+</head>
+<body>
+[% INCLUDE 'header.inc' %]
+[% INCLUDE 'cat-search.inc' %]
+
+<div id="breadcrumbs"><a href="/cgi-bin/koha/mainpage.pl">Home</a> &rsaquo; <a href="/cgi-bin/koha/plugins/plugins-home.pl">Plugins</a> &rsaquo; Ki    tchen Sink &rsaquo; Report &rsaquo; Patron List</div>
+
+<div id="doc3">
+    <h3>Generate List of unused authorities</h3>
+    <p> This report searches for each authority using a simple search and counts the results to determine if they are used.  It may have a long run time on systems with many authorities.</p>
+
+        <!-- Notice our form here has no 'action', this is good, it means that our forms will always get passed back to 'plugins/run.pl'. You could hard code it instead if you prefer -->
+<form method="get">
+                <input type="hidden" name="class" value="[% CLASS %]"/>
+                <input type="hidden" name="method" value="[% METHOD %]"/>
+
+<label for="output">Output Data to:</label>
+<select name="output">
+<option value="screen">Display List</option>
+<option value="csv">CSV File</option>
+</select>
+<br/>
+<label for="lower_lim">Start record id:</label>
+<input type="number" name="lower_lim" />
+<label for="upper_lim">Ending record id:</label>
+<input type="number" name="upper_lim" />
+<br/>
+<h3> If no range is input above a limit of 5000 will be checked.  While you can ask for more results I recommend sticking to smaller batches to avoid timeouts / resource drain</h3>
+<br/><br/>
+
+<input type="submit" value="Run Report" />
+
+</form>
+
+[% INCLUDE 'intranet-bottom.inc' %]

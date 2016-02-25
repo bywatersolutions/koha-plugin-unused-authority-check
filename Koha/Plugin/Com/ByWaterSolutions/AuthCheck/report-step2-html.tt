@@ -1,0 +1,35 @@
+[% INCLUDE 'doc-head-open.inc' %]
+ <title>Koha: Kitchen Sink Plugin: Report: Patron List</title>
+[% INCLUDE 'doc-head-close.inc' %]
+</head>
+<body>
+[% INCLUDE 'header.inc' %]
+[% INCLUDE 'cat-search.inc' %]
+
+<div id="breadcrumbs"><a href="/cgi-bin/koha/mainpage.pl">Home</a> &rsaquo; <a href="/cgi-bin/koha/plugins/plugins-home.pl">Plugins</a> &rsaquo; Unused Authority Report &rsaquo; Report &rsaquo; Unused Authority List</div>
+
+<div id="doc3">
+
+<table border=1>
+  <thead>
+    <tr>
+      <th>Authority ID</th>
+      <th>Authority Type</th>
+      <th>Main Heading</th>
+      <th>Link</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    [% FOREACH r IN results_loop %]
+      <tr>
+        <td>[% r.authid %]</td>
+        <td>[% r.authtypecode %]</td>
+        <td>[% r.main_term %]</td>
+        <td><a href="/cgi-bin/koha/authorities/detail.pl?authid=[% r.authid %]">Link to authority record</a></td>
+      </tr>
+    [% END %]
+  </tbody>
+</table>
+</div>
+[% INCLUDE 'intranet-bottom.inc' %]
