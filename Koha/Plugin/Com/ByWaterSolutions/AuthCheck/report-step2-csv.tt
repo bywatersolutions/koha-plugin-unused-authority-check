@@ -1,0 +1,3 @@
+authid,auth_type_code,main_term
+[% FOREACH r IN results_loop %]"[% r.authid %]","[% r.authtypecode %]","[% r.main_term %]","[% r.modification_time %]","[% r.marcdate %]"
+[% END %]
