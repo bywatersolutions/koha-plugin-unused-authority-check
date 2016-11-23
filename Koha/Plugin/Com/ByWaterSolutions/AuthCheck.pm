@@ -8,8 +8,6 @@ use base qw(Koha::Plugins::Base);
 
 ## We will also need to include any Koha libraries we want to access
 use C4::Context;
-#use C4::Branch;
-#use C4::Members;
 use C4::Auth;
 use C4::Search;
 use MARC::Record;

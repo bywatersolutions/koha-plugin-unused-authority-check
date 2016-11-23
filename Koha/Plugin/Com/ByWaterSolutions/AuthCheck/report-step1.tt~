@@ -1,12 +1,12 @@
 [% INCLUDE 'doc-head-open.inc' %]
- <title>Koha: Unused Authirities Report: Select options</title>
+ <title>Koha: Kitchen Sink Plugin: Report: Patron List</title>
 [% INCLUDE 'doc-head-close.inc' %]
 </head>
 <body>
 [% INCLUDE 'header.inc' %]
 [% INCLUDE 'cat-search.inc' %]
 
-<div id="breadcrumbs"><a href="/cgi-bin/koha/mainpage.pl">Home</a> &rsaquo; <a href="/cgi-bin/koha/plugins/plugins-home.pl">Plugins</a> &rsaquo; Unused Authorities Report &rsaquo; Options</div>
+<div id="breadcrumbs"><a href="/cgi-bin/koha/mainpage.pl">Home</a> &rsaquo; <a href="/cgi-bin/koha/plugins/plugins-home.pl">Plugins</a> &rsaquo; Ki    tchen Sink &rsaquo; Report &rsaquo; Patron List</div>
 
 <div id="doc3">
     <h3>Generate List of unused authorities</h3>
@@ -28,20 +28,8 @@
 <label for="upper_lim">Ending record id:</label>
 <input type="number" name="upper_lim" />
 <br/>
-<h3> NOTE: a limit of 5000 records will be checked, please use batches to avoid timeouts / resource drain</h3>
+<h3> If no range is input above a limit of 5000 will be checked.  While you can ask for more results I recommend sticking to smaller batches to avoid timeouts / resource drain</h3>
 <br/><br/>
-
-<label for="type_lim">Authority type:</label>
-<select name="type_lim">
-  <option value='All'>All</option>
-  <option value='GENRE/FORM'>Genre / Form terms</option>
-  <option value='GEOGR_NAME'>Geographic names</option>
-  <option value='MEETI_NAME'>Meeting name</option>
-  <option value='PERSO_NAME'>Personal name</option>
-  <option value='TOPIC_TERM'>Topical term</option>
-  <option value='UNIF_TITLE'>Uniform title</option>
-</select>
-<br/>
 
 <input type="submit" value="Run Report" />
 
