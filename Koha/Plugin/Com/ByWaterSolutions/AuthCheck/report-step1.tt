@@ -27,8 +27,11 @@
 <input type="number" name="lower_lim" />
 <label for="upper_lim">Ending record id:</label>
 <input type="number" name="upper_lim" />
+<label for="created_date">Records created on (YYYY-MM-DD):</label>
+<input type="text" name="created_date" />
 <br/>
 <h3> NOTE: a limit of 5000 records will be checked, please use batches to avoid timeouts / resource drain</h3>
+<h6> You can override this limit here at your own risk <input type="number" name="check_lim" /></h6>
 <br/><br/>
 
 <label for="type_lim">Authority type:</label>

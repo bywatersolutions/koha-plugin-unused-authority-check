@@ -113,6 +113,8 @@ sub report_step2 {
     my $lower_lim = $cgi->param('lower_lim');
     my $upper_lim = $cgi->param('upper_lim');
     my $type_lim = $cgi->param('type_lim');
+    my $check_lim = $cgi->param('check_lim') || 5_000;
+    my $created_date = $cgi->param("created_date");
 
     my $query = "SELECT authid,authtypecode,IF( authtypecode='CORPO_NAME',ExtractValue(marcxml,'//datafield[\@tag=\"110\"]/*'),
                                IF( authtypecode='GENRE/FORM',ExtractValue(marcxml,'//datafield[\@tag=\"155\"]/*'),
@@ -131,6 +133,10 @@ sub report_step2 {
         if ( $upper_lim || $lower_lim ) { $query .= " AND authtypecode = '$type_lim' ";}
         else { $query .= " WHERE authtypecode = '$type_lim' ";}
     }
+    if ($created_date) {
+        if ($lower_lim || $upper_lim || $type_lim ne 'All') { $query .= " AND datecreated = '$created_date' ";}
+        else { $query .= " WHERE datecreated = '$created_date' ";}
+    }
     $query .= " ORDER BY authtypecode, main_term";
     warn $query;
     my $sth = $dbh->prepare($query);
@@ -140,7 +146,7 @@ sub report_step2 {
     my $i =0 ;
     while ( my $row = $sth->fetchrow_hashref() ) {
         $i++;
-        if($i>5_000){last;}
+        if($i>$check_lim){last;}
         my $a_query = 'an='.$row->{'authid'};
         my ($err,$res,$used) = C4::Search::SimpleSearch($a_query,0,10);
         if (defined $err) { $used=0; }
