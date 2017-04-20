@@ -124,7 +124,9 @@ sub report_step2 {
                                IF( authtypecode='TOPIC_TERM',ExtractValue(marcxml,'//datafield[\@tag=\"150\"]/*'),
                                IF( authtypecode='UNIF_TITLE',ExtractValue(marcxml,'//datafield[\@tag=\"130\"]/*'),''))))))) AS main_term,
                                modification_time,
-                               ExtractValue(marcxml,'//controlfield[\@tag=\"005\"]') AS marcdate
+                               ExtractValue(marcxml,'//controlfield[\@tag=\"005\"]') AS marcdate,
+                               ExtractValue(marcxml,'//datafield[\@tag=\"035\"]/subfield[\@code=\"a\"]') AS syscontrol,
+                               ExtractValue(marcxml,'//datafield[\@tag=\"040\"]/subfield[\@code=\"a\"]') AS origsource
         FROM auth_header";
     if ( $lower_lim*$upper_lim ) { $query .= " WHERE authid BETWEEN $lower_lim AND $upper_lim "; }
     elsif ($lower_lim) {$query .= " WHERE authid > $lower_lim ";}

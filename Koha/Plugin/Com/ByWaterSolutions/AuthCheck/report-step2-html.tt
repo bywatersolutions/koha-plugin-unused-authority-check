@@ -19,6 +19,8 @@
       <th>Link</th>
       <th>Last modififed</th>
       <th>005 Field</th>
+      <th>035 Field</th>
+      <th>040 Field</th>
     </tr>
   </thead>
 
@@ -31,6 +33,8 @@
         <td><a href="/cgi-bin/koha/authorities/detail.pl?authid=[% r.authid %]">Link to authority record</a></td>
         <td>[% r.modification_time %]</td>
         <td>[% r.marcdate %]</td>
+        <td>[% r.syscontrol%]</td>
+        <td>[% r.origsource %]</td>
       </tr>
     [% END %]
   </tbody>
