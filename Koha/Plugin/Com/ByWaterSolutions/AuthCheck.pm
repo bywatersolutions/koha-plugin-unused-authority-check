@@ -13,7 +13,7 @@ use C4::Search;
 use MARC::Record;
 
 ## Here we set our plugin version
-our $VERSION = 1.50;
+our $VERSION = "{VERSION}";
 
 ## Here is our metadata, some keys are required, some are optional
 our $metadata = {
