@@ -145,7 +145,6 @@ sub report_step2 {
     $sth->execute();
     my $i=0;
     my @results;
-    my $i =0 ;
     while ( my $row = $sth->fetchrow_hashref() ) {
         $i++;
         if($i>$check_lim){last;}
