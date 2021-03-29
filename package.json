@@ -1,7 +1,7 @@
 {
   "name": "koha-plugin-unused-authority-check",
-  "version": "1.5.7",
-  "previous_version": "1.5.6",
+  "version": "1.5.8",
+  "previous_version": "1.5.7",
   "description": "Koha Unused Authority Check Plugin",
   "devDependencies": {
     "gulp": "^3.9.1",
