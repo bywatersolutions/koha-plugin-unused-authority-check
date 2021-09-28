@@ -21,7 +21,7 @@ our $metadata = {
     author => 'Nick Clemens',
     description => 'This plugin searches your system for authorities that have no attached records',
     date_authored   => '2016-02-25',
-    date_updated    => '2016-02-25',
+    date_updated    => '1900-01-01',
     minimum_version => '3.18',
     maximum_version => undef,
     version         => $VERSION,
@@ -44,6 +44,35 @@ sub new {
     return $self;
 }
 
+=head3 upgrade
+
+Takes care of upgrading whatever is needed (table structure, new tables, information on those)
+
+=cut
+
+sub upgrade {
+    my ( $self, $args ) = @_;
+
+    # upgrade added after 1.5.8
+    my $new_version = "1.5.9";
+
+    if (
+        Koha::Plugins::Base::_version_compare(
+            $self->retrieve_data('__INSTALLED_VERSION__'), $new_version ) == -1
+      )
+    {
+        # remove unused table
+        my $table = $self->get_qualified_table_name('mytable');
+
+        if ( $self->_table_exists($table) ) {
+            C4::Context->dbh->do(qq{
+                DROP TABLE $table;
+            });
+        }
+
+        $self->store_data( { '__INSTALLED_VERSION__' => $new_version } );
+    }
+}
 
 ## The existance of a 'report' subroutine means the plugin is capable
 ## of running a report. This example report can output a list of patrons
@@ -60,36 +89,6 @@ sub report {
     else {
        $self->report_step2();
     }
-}
-
-
-## This is the 'install' method. Any database tables or other setup that should
-## be done when the plugin if first installed should be executed in this method.
-## The installation method should always return true if the installation succeeded
-## or false if it failed.
-sub install() {
-    my ( $self, $args ) = @_;
-
-    my $table = $self->get_qualified_table_name('mytable');
-
-    unless ( $self->_table_exists( $table ) ) {
-        return C4::Context->dbh->do(qq{
-            CREATE TABLE $table (
-                `borrowernumber` INT(11) NOT NULL
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-        });
-    }
-}
-
-## This method will be run just before the plugin files are deleted
-## when a plugin is uninstalled. It is good practice to clean up
-## after ourselves!
-sub uninstall() {
-    my ( $self, $args ) = @_;
-
-    my $table = $self->get_qualified_table_name('mytable');
-
-    return C4::Context->dbh->do("DROP TABLE $table");
 }
 
 ## These are helper functions that are specific to this plugin
