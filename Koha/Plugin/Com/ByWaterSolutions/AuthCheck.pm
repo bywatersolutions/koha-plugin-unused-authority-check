@@ -44,6 +44,14 @@ sub new {
     return $self;
 }
 
+sub install {
+    return 1;
+}
+
+sub uninstall {
+    return 1;
+}
+
 =head3 upgrade
 
 Takes care of upgrading whatever is needed (table structure, new tables, information on those)
