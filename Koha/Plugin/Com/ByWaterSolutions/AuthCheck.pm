@@ -9,7 +9,7 @@ use base qw(Koha::Plugins::Base);
 ## We will also need to include any Koha libraries we want to access
 use C4::Context;
 use C4::Auth;
-use C4::Search;
+use Koha::SearchEngine;
 use MARC::Record;
 
 ## Here we set our plugin version
@@ -158,10 +158,11 @@ sub report_step2 {
         $i++;
         if($i>$check_lim){last;}
         my $a_query = 'an='.$row->{'authid'};
-        my ($err,$res,$used) = C4::Search::SimpleSearch($a_query,0,10);
-        if (defined $err) { $used=0; }
-        if ($used > 0){ next}
-        else{push( @results, $row );}
+	my $searcher = Koha::SearchEngine::Search->new( { index => $Koha::SearchEngine::BIBLIOS_INDEX } );
+	my ( $errors, $results, $used ) = $searcher->simple_search_compat( $a_query, 0, 10 );
+        $used = 0 if defined $errors;
+        next if $used > 0;
+        push @results, $row;
     }
 
 
