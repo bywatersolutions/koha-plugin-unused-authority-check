@@ -125,6 +125,7 @@ sub report_step2 {
     my $check_lim = $cgi->param('check_lim') || 5_000;
     my $created_date = $cgi->param("created_date");
 
+    my @query_params;
     my $query = "SELECT authid,authtypecode,IF( authtypecode='CORPO_NAME',ExtractValue(marcxml,'//datafield[\@tag=\"110\"]/*'),
                                IF( authtypecode='GENRE/FORM',ExtractValue(marcxml,'//datafield[\@tag=\"155\"]/*'),
                                IF( authtypecode='GEOGR_NAME',ExtractValue(marcxml,'//datafield[\@tag=\"151\"]/*'),
@@ -137,21 +138,37 @@ sub report_step2 {
                                ExtractValue(marcxml,'//datafield[\@tag=\"035\"]/subfield[\@code=\"a\"]') AS syscontrol,
                                ExtractValue(marcxml,'//datafield[\@tag=\"040\"]/subfield[\@code=\"a\"]') AS origsource
         FROM auth_header";
-    if ( $lower_lim*$upper_lim ) { $query .= " WHERE authid BETWEEN $lower_lim AND $upper_lim "; }
-    elsif ($lower_lim) {$query .= " WHERE authid > $lower_lim ";}
-    elsif ($upper_lim) {$query .= " WHERE authid < $upper_lim ";}
-    if ( $type_lim ne 'All' ){
-        if ( $upper_lim || $lower_lim ) { $query .= " AND authtypecode = '$type_lim' ";}
-        else { $query .= " WHERE authtypecode = '$type_lim' ";}
+    if ( $lower_lim * $upper_lim ) {
+        $query .= " WHERE authid BETWEEN ? AND ? ";
+        push @query_params, ( $lower_lim, $upper_lim );
+    } elsif ($lower_lim) {
+        $query .= " WHERE authid > ? ";
+        push @query_params, $lower_lim;
+    } elsif ($upper_lim) {
+        $query .= " WHERE authid < ? ";
+        push @query_params, $upper_lim;
+    }
+    if ( $type_lim ne 'All' ) {
+        if ( $upper_lim || $lower_lim ) {
+            $query .= " AND authtypecode = ? ";
+            push @query_params, $type_lim;
+        } else {
+            $query .= " WHERE authtypecode = ? ";
+            push @query_params, $type_lim;
+        }
     }
     if ($created_date) {
-        if ($lower_lim || $upper_lim || $type_lim ne 'All') { $query .= " AND datecreated = '$created_date' ";}
-        else { $query .= " WHERE datecreated = '$created_date' ";}
+        if ( $lower_lim || $upper_lim || $type_lim ne 'All' ) {
+            $query .= " AND datecreated = ? ";
+            push @query_params, $created_date;
+        } else {
+            $query .= " WHERE datecreated = ? ";
+            push @query_params, $created_date;
+        }
     }
     $query .= " ORDER BY authtypecode, main_term";
-    warn $query;
     my $sth = $dbh->prepare($query);
-    $sth->execute();
+    $sth->execute(@query_params);
     my $i=0;
     my @results;
     while ( my $row = $sth->fetchrow_hashref() ) {
