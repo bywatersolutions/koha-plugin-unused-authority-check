@@ -80,6 +80,7 @@ sub upgrade {
 
         $self->store_data( { '__INSTALLED_VERSION__' => $new_version } );
     }
+	return 1;
 }
 
 ## The existance of a 'report' subroutine means the plugin is capable
