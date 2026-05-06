@@ -37,6 +37,8 @@
 <label for="type_lim">Authority type:</label>
 <select name="type_lim">
   <option value='All'>All</option>
+  <option value='CHRON_TERM'>Chronological terms</option>
+  <option value='CORPO_NAME'>Corporate names</option>
   <option value='GENRE/FORM'>Genre / Form terms</option>
   <option value='GEOGR_NAME'>Geographic names</option>
   <option value='MEETI_NAME'>Meeting name</option>
